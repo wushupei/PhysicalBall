@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scene/ElasticBall.unity
+  isLoaded: 1
+  isActive: 1
