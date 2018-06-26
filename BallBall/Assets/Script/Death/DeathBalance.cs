@@ -13,13 +13,13 @@ public class DeathBalance : MonoBehaviour //挂死亡面板DeathPanel上
     private void OnEnable()
     {
         bureauScore.text = score.text; //结算本局分数     
-        if (PlayerPrefs.HasKey("分数")) //如果有这个键
+        if (PlayerPrefs.HasKey("分数")) //如果已经存储了分数
             topScore.text = PlayerPrefs.GetString("分数");  //就获取上次存的最高分数
-        //如果本局分数比最高分数大
+        //让本局分数和最高分数比较，如果本局分数比最高分数大
         if (Convert.ToInt32(bureauScore.text) > Convert.ToInt32(topScore.text))
         {
-            topScore.text = bureauScore.text; //将本局分数显示在最高分数那里
-            PlayerPrefs.SetString("分数", bureauScore.text); //存储存储本局分数        
+            topScore.text = bureauScore.text; //更新最高分数
+            PlayerPrefs.SetString("分数", bureauScore.text); //存储最高分数        
         }
     }
     public void RestartGame() //重新开始,挂按钮RestartGame上

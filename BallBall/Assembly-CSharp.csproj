@@ -60,13 +60,13 @@
      <Compile Include="Assets\Script\Level\LevelCreate.cs" />
      <Compile Include="Assets\Script\Level\LevelMove.cs" />
      <Compile Include="Assets\Script\Level\LevelState.cs" />
-     <Compile Include="Assets\Script\Stunt\BigBall.cs" />
-     <Compile Include="Assets\Script\Stunt\CopyBall.cs" />
- <Reference Include="Unity.PackageManagerUI.Editor">
- <HintPath>E:/课堂资料/项目/物理弹球/BallBall/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Script\Prop\BigBall.cs" />
+     <Compile Include="Assets\Script\Prop\CopyBall.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>E:/课堂资料/项目/物理弹球/BallBall/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.PackageManagerUI.Editor">
+ <HintPath>E:/课堂资料/项目/物理弹球/BallBall/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>E:/RuanJian/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

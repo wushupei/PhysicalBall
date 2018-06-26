@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum LevelState //游戏状态,不用挂
+/// <summary>
+/// 关卡运行状态
+/// </summary>
+public enum LevelState 
 { 
-    life,
-    pause,
-    die,
+    life,  //运行中
+    pause, //暂停
+    die, //游戏结束
 }

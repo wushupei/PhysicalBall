@@ -2,54 +2,83 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class LevelCreate : MonoBehaviour//挂LevelPanel上
+/// <summary>
+/// 挂LevelPanel上
+/// </summary>
+public class LevelCreate : MonoBehaviour
 {
-    public Text scoreText; //把当前分数ScoreText拖进去
-    public Transform[] Enemys; //所有种类敌人,把所有敌人预制件拖进去
-    public Text numberText; //把NumberText预制件拖进去
-    public Transform[] stunts; //所有种类特效,把左右特效预制件拖进去
-    public Transform PaneFactory() //格子工厂,决定格子里是否生成东西
+    //在编辑器中将当前分数ScoreText拖进去
+    public Text scoreText;
+    //几何体数组
+    Transform[] enemys;
+    //道具数组
+    Transform[] stunts;
+    void Awake()
     {
-        int chance = Random.Range(0, 4); //25%产生东西,75%不产生东西
-        if (chance < 3)
-            return null;
-        else
-            return PaneManage(); //生产东西
+        //将所有几何体和道具加载到数组中
+        enemys = LoadPrefab("Prefab/EnemyPrefab"); 
+        stunts= LoadPrefab("Prefab/PropPrefab");
     }
-    Transform PaneManage() //格子管理,决定该格子生产什么东西
+    //加载预制件体返回数组
+    public Transform[] LoadPrefab(string path)
     {
-        int chance = Random.Range(0, 3); //33%产生特技,66%产生敌人
-        if (chance < 2)
-            return CreateEnemy(); //生产敌人
-        else
-            return CreateStunt(); //生产特技
-    }  
-    Transform CreateStunt() //随机生成特技
+        Object[] obj = Resources.LoadAll(path);
+        Transform[] th = new Transform[obj.Length];
+        for (int i = 0; i < th.Length; i++)
+        {
+            th[i] = (obj[i] as GameObject).transform;
+        }
+        return th;
+    }
+    //物体生成器,决定格子里是否生成东西（几率可自行设定）
+    public Transform PaneFactory()
     {
-        int index = Random.Range(0, stunts.Length);//随机产生一个索引,生成相应特技
+        int chance = Random.Range(0, 4);
+        if (chance < 3)          //75%不产生东西,
+            return null;
+        else                     //25%产生东西
+            return PaneManage();
+    }
+    //决定格子里该生产什么东西
+    Transform PaneManage()
+    {
+        int chance = Random.Range(0, 3);
+        if (chance < 2)           //66%产生几何体
+            return CreateEnemy();
+        else                      //33%产生道具
+            return CreateStunt();
+    }
+    //随机生成道具
+    Transform CreateStunt()
+    {
+        //随机产生一个道具数组索引
+        int index = Random.Range(0, stunts.Length);
+        //生成该索引处道具
         return Instantiate(stunts[index]);
     }
-    Transform CreateNumber() //随机生成敌人数字(受当前分数scoreText的影响)
+    //随机生成敌人
+    public Transform CreateEnemy()
     {
-        Text number = Instantiate(numberText);       
-        int score = System.Convert.ToInt32(scoreText.text); //获取当前分数
-        if (score < 100)
-            number.text = Random.Range(1, 10).ToString(); //百分以内
-        else
-            number.text = Random.Range(1, score / 10).ToString(); //百分之后数字随当前分数逐渐变大     
-        return number.transform;
-    }
-    public Transform CreateEnemy() //随机生成敌人
-    {
-        int index = Random.Range(0, Enemys.Length); //随机产生一个索引,在所有敌人中挑一个创建
-        Transform enemy = Instantiate(Enemys[index]); 
-        enemy.rotation = Quaternion.Euler(0, 0, Random.Range(0, 45)); //给一个随机旋转角度
-        //随机初始化颜色
-        enemy.GetComponent<Renderer>().material.color = new Color(Random.value, Random.value, Random.value); 
-        Transform number = CreateNumber(); //生成数字
-        number.position = enemy.position; //将当前敌人坐标给它
-        number.parent = enemy; //认当前敌人做父物体,跟着它移动
+        //随机产生一个几何体数组索引
+        int index = Random.Range(0, enemys.Length);
+        //生成该索引处几何体
+        Transform enemy = Instantiate(enemys[index]);
+        //给几何体赋一个随机颜色
+        enemy.GetComponent<Renderer>().material.color = new Color(Random.value, Random.value, Random.value);
+        //给几何体一个随机旋转角度
+        enemy.rotation = Quaternion.Euler(0, 0, Random.Range(0, 90));
+        //获取几何体子物体数字的Transform组件
+        Transform tf = enemy.GetComponentInChildren<Text>().transform;
+        //子物体不旋转
+        tf.rotation = Quaternion.Euler(0, 0, 0);
+        //获取当前分数
+        int score = System.Convert.ToInt32(scoreText.text);
+        if (score < 100) //如果当前分数不超过100分
+            //几何体数字在 1~9 之间随机生成
+            enemy.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
+        else //当前分数超过100分
+            //几何体数字在 1~当前分数/10 之间随机生成
+            enemy.GetComponentInChildren<Text>().text = Random.Range(1, score / 10).ToString();
         return enemy;
     }
 }

@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class Enemy : MonoBehaviour //挂每个敌人预制体上
+/// <summary>
+/// 挂每个几何体上
+/// </summary>
+public class Enemy : MonoBehaviour 
 {
-    Text son;
+    Text number; //声明数字
     private void Start()
     {
-        son = GetComponentInChildren<Text>(); //找到儿子(数字)
+        number = GetComponentInChildren<Text>(); //找到子物体(数字)
     }
     private void Update()
     {
-        if (Convert.ToInt32(son.text) < 1) //如果数字小于1时
-            Destroy(gameObject); //销毁自身
+        if (Convert.ToInt32(number.text) < 1) //如果数字小于1时
+            Destroy(gameObject); //销毁几何体自身
     }
 }
